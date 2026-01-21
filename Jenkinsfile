@@ -1,20 +1,29 @@
 pipeline {
     agent any
     stages {
-        stage('Compile') {
-            steps { 
+        stage ('git job') {
+            steps {
+                echo "cloning....."
+            }
+        }
+        stage ('build job') {
+            steps {
+                echo "building....."
                 sh 'mvn compile'
             }
         }
-        stage('test') {
-            steps { 
+        stage ('testjob') {
+            steps {
+                echo "testing....."
                 sh 'mvn test'
             }
         }
-        stage('package') {
-            steps { 
-                sh 'mvn package'
+        stage ('deployjob') {
+            steps {
+                echo "deployiing....."
+                sh 'mvn install'
+                archiveArtifacts artifacts: 'target/addressbook.war', followSymlinks: false
             }
-        }
+        }     
     }
 }
